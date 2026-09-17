@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full bg-[#120326]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEASTABLES STYLE - Training Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- นำเข้าฟอนต์ Kanit (หัวข้อ) และ Prompt (เนื้อหาอ่านง่าย) -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700;900&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        .font-beast { font-family: 'Kanit', sans-serif; font-weight: 900; }
+        
+        .beast-shadow { box-shadow: 4px 4px 0px 0px #000000; }
+        .beast-shadow-sm { box-shadow: 2px 2px 0px 0px #000000; }
+        .beast-shadow-lg { box-shadow: 6px 6px 0px 0px #000000; }
+        
+        .beast-btn-hover:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px #000000;
+        }
+        .beast-btn-hover:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px 0px #000000;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-900 bg-[#1e0836] antialiased selection:bg-[#FFE600] selection:text-black">
+
+    <!-- Header & Banner -->
+    <header class="bg-[#FFE600] border-b-4 border-black sticky top-0 z-30">
+        <!-- Ticker Marquee Bar -->
+        <div class="bg-[#FF007A] text-white font-beast text-sm py-1.5 px-4 overflow-hidden whitespace-nowrap border-b-2 border-black tracking-wider flex justify-between uppercase">
+            <span>⚡ TRAINING PORTAL 2026 ⚡ BUILD YOUR SKILLS ⚡ BE A BEAST ⚡</span>
+            <span class="hidden md:inline">⚡ HIGH PERFORMANCE MODE ⚡ OJT & GHP SYSTEM ⚡</span>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <!-- Logo Brand Style -->
+            <div class="flex items-center gap-3">
+                <div class="bg-[#00E5FF] border-3 border-black p-2 rounded-2xl beast-shadow -rotate-3 hover:rotate-0 transition-transform">
+                    <span class="text-3xl">⚡</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-beast uppercase text-black leading-none tracking-normal">
+                        TRAINING <span class="bg-[#FF007A] text-white px-2.5 py-0.5 rounded-xl border-2 border-black inline-block rotate-1">PORTAL</span>
+                    </h1>
+                    <p class="text-sm font-semibold text-black mt-1">ระบบจัดการแผนอบรม & คลังข้อสอบ</p>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs (ลบปุ่ม +เพิ่มแผน ออกเรียบร้อยแล้ว) -->
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end flex-wrap">
+                <nav class="bg-black p-1.5 rounded-2xl flex text-sm font-bold gap-1.5 border-2 border-black beast-shadow">
+                    <button id="nav-matrix" onclick="switchView('matrix')" class="px-4 py-2 rounded-xl bg-[#00E5FF] text-black border-2 border-black font-bold uppercase transition-all cursor-pointer">
+                        📊 ตาราง MATRIX
+                    </button>
+                    <button id="nav-summary" onclick="switchView('summary')" class="px-4 py-2 rounded-xl text-white hover:text-[#FFE600] transition-all cursor-pointer uppercase">
+                        📈 สรุปแผนก
+                    </button>
+                    <button id="nav-links" onclick="switchView('links')" class="px-4 py-2 rounded-xl text-white hover:text-[#00E5FF] transition-all cursor-pointer uppercase">
+                        🔗 ลิงก์ข้อสอบ (6 หลักสูตร)
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- VIEW 1: Matrix Table -->
+    <main id="view-matrix" class="p-4 sm:p-6 max-w-full overflow-x-auto flex-1">
+        <div class="bg-white rounded-3xl border-4 border-black beast-shadow-lg inline-block min-w-full overflow-hidden">
+            <table class="border-collapse text-sm text-left w-full">
+                <thead>
+                    <tr class="bg-[#00E5FF] text-black border-b-4 border-black font-bold text-base">
+                        <th class="p-4 border-r-3 border-black text-center w-32 sticky left-0 bg-[#00E5FF] z-10 font-beast text-lg">เดือน</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">LMN 1</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">LMN 2</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">OP</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">SRN</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">KINSUN</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">ENV+ พลังงาน</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">ENF</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">MN</th>
+                        <th class="p-4 border-r-3 border-black min-w-[160px]">RD</th>
+                        <th class="p-4 min-w-[160px]">ASRS</th>
+                    </tr>
+                </thead>
+                <tbody id="matrix-tbody" class="divide-y-3 divide-black font-medium">
+                    <!-- JS Render Matrix -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- VIEW 2: Department Summary Dashboard -->
+    <main id="view-summary" class="p-4 sm:p-6 max-w-7xl mx-auto w-full hidden flex-1 space-y-6">
+        <!-- Top Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div class="bg-[#FFE600] p-5 rounded-3xl border-4 border-black beast-shadow flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-black uppercase">แผนการอบรมทั้งหมด</p>
+                    <p id="total-all" class="text-4xl font-beast text-black mt-1">0 <span class="text-base font-bold">รายการ</span></p>
+                </div>
+                <div class="w-14 h-14 bg-black text-[#FFE600] rounded-2xl border-2 border-black flex items-center justify-center text-3xl font-beast">📦</div>
+            </div>
+            <div class="bg-[#00E5FF] p-5 rounded-3xl border-4 border-black beast-shadow flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-black uppercase">อบรมเสร็จสิ้นแล้ว</p>
+                    <p id="completed-all" class="text-4xl font-beast text-black mt-1">0 <span class="text-base font-bold">รายการ</span></p>
+                </div>
+                <div class="w-14 h-14 bg-black text-[#00E5FF] rounded-2xl border-2 border-black flex items-center justify-center text-3xl font-beast">🔥</div>
+            </div>
+            <div class="bg-[#FF007A] p-5 rounded-3xl border-4 border-black beast-shadow flex items-center justify-between text-white">
+                <div>
+                    <p class="text-sm font-bold text-white uppercase">รอดำเนินการ</p>
+                    <p id="pending-all" class="text-4xl font-beast text-white mt-1">0 <span class="text-base font-bold">รายการ</span></p>
+                </div>
+                <div class="w-14 h-14 bg-black text-[#FF007A] rounded-2xl border-2 border-black flex items-center justify-center text-3xl font-beast">⚡</div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+            <h2 class="text-2xl font-beast text-white tracking-wide flex items-center gap-2">
+                <span class="bg-[#FFE600] text-black px-2.5 py-0.5 rounded-xl border-2 border-black">🏢</span> ความคืบหน้าการอบรมรายแผนก
+            </h2>
+        </div>
+
+        <div id="dept-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- JS Render Department Cards -->
+        </div>
+    </main>
+
+    <!-- VIEW 3: Exam Links Center -->
+    <main id="view-links" class="p-4 sm:p-6 max-w-7xl mx-auto w-full hidden flex-1 space-y-6">
+        <div class="bg-[#7000FF] border-4 border-black p-6 rounded-3xl text-white beast-shadow flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <span class="inline-block px-3 py-1 bg-[#FFE600] text-black font-bold rounded-xl text-sm border-2 border-black mb-2">⚡ OFFICIAL EXAM HUB</span>
+                <h2 class="text-2xl font-beast uppercase">คลังลิงก์ข้อสอบ & ตัวเก็บข้อมูล (6 หลักสูตร)</h2>
+                <p class="text-sm text-purple-200 mt-1">กดปุ่มสีสันด้านล่าง เพื่อเปิดลิงก์แก้ไข ทำข้อสอบ ดูตารางผลสอบ หรือฟอร์มลงทะเบียนได้ทันที</p>
+            </div>
+        </div>
+
+        <!-- Section เอกสารการอบรม & ระบบลงทะเบียน -->
+        <div class="bg-white rounded-3xl border-4 border-black p-5 beast-shadow">
+            <div class="flex items-center gap-3 mb-4 pb-3 border-b-3 border-black">
+                <span class="p-2 bg-[#FF007A] text-white rounded-xl text-xl font-beast border-2 border-black">📌</span>
+                <div>
+                    <h3 class="font-beast text-black text-xl uppercase leading-none">เอกสารการอบรม & ระบบลงทะเบียน</h3>
+                    <p class="text-xs text-slate-600 font-semibold mt-1">แบบฟอร์มลงทะเบียนเข้าอบรมและระบบปริ้นสรุปคำตอบ</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-semibold text-sm">
+                <!-- ใบลงทะเบียน -->
+                <a href="https://docs.google.com/spreadsheets/d/1j0EtnVFuLLnRry2IyxJF933vRLNkajx_iL1pH5ODCTs/edit?gid=923363009#gid=923363009" target="_blank" class="flex items-center justify-between p-4 rounded-2xl border-3 border-black bg-[#FFE600] text-black hover:bg-black hover:text-[#FFE600] transition beast-shadow-sm group">
+                    <span class="flex items-center gap-2.5 font-bold text-base">
+                        <span class="text-xl">📋</span> แบบฟอร์มใบลงทะเบียน
+                    </span>
+                    <span class="group-hover:translate-x-1 transition-transform font-bold text-lg">➔</span>
+                </a>
+
+                <!-- รวมคำตอบ (ปริ้น) -->
+                <a href="https://docs.google.com/spreadsheets/d/10X8kd5eBSy7gL4ekFp_ncqqxhcuk-eHTcbs_4AjwcHY/edit?gid=1430203909#gid=1430203909" target="_blank" class="flex items-center justify-between p-4 rounded-2xl border-3 border-black bg-[#00E5FF] text-black hover:bg-black hover:text-[#00E5FF] transition beast-shadow-sm group">
+                    <span class="flex items-center gap-2.5 font-bold text-base">
+                        <span class="text-xl">🖨️</span> รวมคำตอบ (ปริ้น)
+                    </span>
+                    <span class="group-hover:translate-x-1 transition-transform font-bold text-lg">➔</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Section: คอร์สข้อสอบ 6 หลักสูตร -->
+        <div id="exam-links-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- JS Render Exam Links Cards -->
+        </div>
+    </main>
+
+    <!-- Modal เพิ่มหลักสูตร -->
+    <div id="addModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-[#FFE600] rounded-3xl border-4 border-black max-w-md w-full p-6 beast-shadow-lg">
+            <div class="flex justify-between items-center mb-4 border-b-3 border-black pb-3">
+                <h3 class="text-2xl font-beast text-black uppercase">➕ เพิ่มแผนการอบรมใหม่</h3>
+                <button onclick="closeAddModal()" class="bg-black text-white font-beast w-9 h-9 text-lg rounded-xl border-2 border-black hover:bg-[#FF007A] transition cursor-pointer">✕</button>
+            </div>
+            <form id="training-form" class="space-y-4 text-sm font-semibold">
+                <div>
+                    <label class="block uppercase text-black mb-1 font-bold">ประจำเดือน</label>
+                    <select id="modal-month" class="w-full bg-white border-3 border-black rounded-xl p-3 outline-none focus:ring-2 focus:ring-black text-base" required>
+                        <option value="มกราคม">มกราคม</option>
+                        <option value="กุมภาพันธ์">กุมภาพันธ์</option>
+                        <option value="มีนาคม">มีนาคม</option>
+                        <option value="เมษายน">เมษายน</option>
+                        <option value="พฤษภาคม">พฤษภาคม</option>
+                        <option value="มิถุนายน">มิถุนายน</option>
+                        <option value="กรกฎาคม">กรกฎาคม</option>
+                        <option value="สิงหาคม">สิงหาคม</option>
+                        <option value="กันยายน">กันยายน</option>
+                        <option value="ตุลาคม">ตุลาคม</option>
+                        <option value="พฤศจิกายน">พฤศจิกายน</option>
+                        <option value="ธันวาคม">ธันวาคม</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block uppercase text-black mb-1 font-bold">แผนก</label>
+                    <select id="modal-dept" class="w-full bg-white border-3 border-black rounded-xl p-3 outline-none focus:ring-2 focus:ring-black text-base" required>
+                        <option value="LMN 1">LMN 1</option>
+                        <option value="LMN 2">LMN 2</option>
+                        <option value="OP">OP</option>
+                        <option value="SRN">SRN</option>
+                        <option value="KINSUN">KINSUN</option>
+                        <option value="ENV+ พลังงาน">ENV+ พลังงาน</option>
+                        <option value="ENF">ENF</option>
+                        <option value="MN">MN</option>
+                        <option value="RD">RD</option>
+                        <option value="ASRS">ASRS</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block uppercase text-black mb-1 font-bold">หลักสูตร</label>
+                    <select id="modal-course" onchange="checkCustomCourse(this.value)" class="w-full bg-white border-3 border-black rounded-xl p-3 outline-none focus:ring-2 focus:ring-black text-base" required>
+                        <option value="GHP">GHP</option>
+                        <option value="Food Allergen">Food Allergen</option>
+                        <option value="Food defense">Food defense</option>
+                        <option value="ISO14001">ISO14001</option>
+                        <option value="การควบคุมแก้ว">การควบคุมแก้ว</option>
+                        <option value="HACCP">HACCP</option>
+                        <option value="OJT การซ่อมบำรุงเครื่องจักรตามแผน (PM)">OJT การซ่อมบำรุงเครื่องจักรตามแผน (PM)</option>
+                        <option value="การปรับปรุงกระบวนทำงาน (KAIZEN)">การปรับปรุงกระบวนทำงาน (KAIZEN)</option>
+                        <option value="HALAL">HALAL</option>
+                        <option value="อพยพหนีไฟ">อพยพหนีไฟ</option>
+                        <option value="อื่นๆ">อื่นๆ (ระบุเอง)</option>
+                    </select>
+                </div>
+                <div id="custom-box" class="hidden">
+                    <label class="block uppercase text-black mb-1 font-bold">พิมพ์ชื่อหลักสูตร</label>
+                    <input type="text" id="modal-custom-course" class="w-full bg-white border-3 border-black rounded-xl p-3 outline-none focus:ring-2 focus:ring-black text-base" placeholder="ชื่อหลักสูตร...">
+                </div>
+                <div class="flex gap-3 pt-3">
+                    <button type="submit" class="flex-1 bg-[#FF007A] hover:bg-black hover:text-white text-white border-3 border-black py-3 rounded-2xl font-bold uppercase text-base beast-shadow cursor-pointer transition">บันทึกข้อมูล</button>
+                    <button type="button" onclick="closeAddModal()" class="flex-1 bg-white hover:bg-slate-200 text-black border-3 border-black py-3 rounded-2xl font-bold uppercase text-base cursor-pointer transition">ยกเลิก</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const months = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+        const departments = ["LMN 1", "LMN 2", "OP", "SRN", "KINSUN", "ENV+ พลังงาน", "ENF", "MN", "RD", "ASRS"];
+
+        const examCourses = [
+            {
+                name: "1. GHP",
+                editUrl: "https://docs.google.com/forms/d/11t0zUDlTTClmvh5y3OCAj4QUPfbIWLnF7l7qFsq_ri8/edit",
+                useUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeNF2NKBPazDxJ4cyguhbDfc_6wJgn7SL5bgmW6kp-nWkxv9A/viewform",
+                dataUrl: "https://docs.google.com/spreadsheets/d/1XXV8F6eIWFxvx0_gINLfWWB9mupJVECrho6epSJUafw/edit?resourcekey#gid=48627925"
+            },
+            {
+                name: "2. Food Allergen",
+                editUrl: "https://docs.google.com/forms/d/1g91Lvd8ui-AIplJaFV1ETBgKabgLLeWVTx2j32CqUt8/edit",
+                useUrl: "https://docs.google.com/forms/d/e/1FAIpQLScioWDL32J3lMQGcinOvZD7bl6Z83NWqQf5XqhxOBTJwVSZPw/viewform",
+                dataUrl: "https://docs.google.com/spreadsheets/d/1TMV7qizd5-Vu15QexFkdwooMbqdbNW6D88WFTw6UDuU/edit?resourcekey=&gid=964958145#gid=964958145"
+            },
+            {
+                name: "3. Food Defense",
+                editUrl: "https://docs.google.com/forms/d/1Sdof4O5mELNLXm2dWqE3W-e2cM0CqaD-TrhDx3BwErc/edit",
+                useUrl: "https://docs.google.com/forms/d/e/1FAIpQLScECJxTq_281LHyEbPZaWs0977J2fjE9ZVhvhgLpOuImwzi1g/viewform",
+                dataUrl: "https://docs.google.com/spreadsheets/d/1jU2FHI0sQcVrQHMfwPQXwkzTDRUpNkT2UemRDS5juKQ/edit?resourcekey#gid=97762247"
+            },
+            {
+                name: "4. ISO 14001",
+                editUrl: "https://docs.google.com/forms/d/17eLdz7X7epcEKNgb6AoRH7NTZ8KJx8b-SE7jxIh6NPE/edit",
+                useUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeDGQ8M4f58FHybASWF-p0otQ-7_3mdebuAQyTHnGZg3Dm5Pw/viewform",
+                dataUrl: "https://docs.google.com/spreadsheets/d/1E980mUhXL1HPJH9OzzSQ27pAMqMRYE367rxA8fqcjYI/edit?resourcekey=&gid=1379853171#gid=1379853171"
+            },
+            {
+                name: "5. การควบคุมแก้ว",
+                editUrl: "https://docs.google.com/forms/d/1daiSCexRzuwiP1uAgccEo59BMIWy7NgXqqi2lrtIcos/edit",
+                useUrl: "https://docs.google.com/forms/d/e/1FAIpQLSf7XOB7HHRZTvBeOZtNRVvF-Ii4lc_bWgYAQWO4j9U2dB_IQw/viewform",
+                dataUrl: "https://docs.google.com/spreadsheets/d/1Eomah8AOcNO9wKkAbnx68v7O90kGofwe7HZ20ZVbSVA/edit?resourcekey=&gid=357539503#gid=357539503"
+            },
+            {
+                name: "6. HACCP",
+                editUrl: "https://docs.google.com/forms/d/1aMh8qZHAsBf43H6mOjP0n9rO1C61sk8oTrS84nqfH4I/edit",
+                useUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdX2m-WOJkV1t1I-fx35TNHNo-mQ9xSRBhDwvYkNKTvqwxWaw/viewform",
+                dataUrl: "https://docs.google.com/spreadsheets/d/1P1zzc4XpI-TxzFI5e4Ils99QAh9A2nH1C6fBpIGs6Fk/edit?resourcekey=&gid=1359602757#gid=1359602757"
+            }
+        ];
+
+        let trainingData = [
+            { id: 1, month: "มกราคม", dept: "LMN 1", course: "GHP", status: "อบรมแล้ว" },
+            { id: 2, month: "มกราคม", dept: "OP", course: "OJT การซ่อมบำรุงเครื่องจักรตามแผน (PM)", status: "อบรมแล้ว" },
+            { id: 3, month: "กุมภาพันธ์", dept: "ENV+ พลังงาน", course: "ISO14001", status: "อบรมแล้ว" },
+            { id: 4, month: "มีนาคม", dept: "SRN", course: "การปรับปรุงกระบวนทำงาน (KAIZEN)", status: "ยังไม่อบรม" },
+            { id: 5, month: "มีนาคม", dept: "ASRS", course: "Food Allergen", status: "ยังไม่อบรม" }
+        ];
+
+        function switchView(viewName) {
+            const matrixView = document.getElementById("view-matrix");
+            const summaryView = document.getElementById("view-summary");
+            const linksView = document.getElementById("view-links");
+
+            const btnMatrix = document.getElementById("nav-matrix");
+            const btnSummary = document.getElementById("nav-summary");
+            const btnLinks = document.getElementById("nav-links");
+
+            matrixView.classList.add("hidden");
+            summaryView.classList.add("hidden");
+            linksView.classList.add("hidden");
+
+            const inactiveBtnClass = "px-4 py-2 rounded-xl text-white hover:text-[#FFE600] transition-all cursor-pointer uppercase font-bold";
+            const activeBtnClass = "px-4 py-2 rounded-xl bg-[#00E5FF] text-black border-2 border-black font-bold uppercase transition-all cursor-pointer";
+
+            btnMatrix.className = inactiveBtnClass;
+            btnSummary.className = inactiveBtnClass;
+            btnLinks.className = inactiveBtnClass;
+
+            if (viewName === 'matrix') {
+                matrixView.classList.remove("hidden");
+                btnMatrix.className = activeBtnClass;
+            } else if (viewName === 'summary') {
+                summaryView.classList.remove("hidden");
+                btnSummary.className = activeBtnClass;
+                renderSummary();
+            } else if (viewName === 'links') {
+                linksView.classList.remove("hidden");
+                btnLinks.className = activeBtnClass;
+                renderExamLinks();
+            }
+        }
+
+        function renderMatrix() {
+            const tbody = document.getElementById("matrix-tbody");
+            tbody.innerHTML = "";
+
+            months.forEach(m => {
+                let tr = document.createElement("tr");
+                tr.className = "hover:bg-yellow-50/50 transition-colors";
+                
+                let tdMonth = document.createElement("td");
+                tdMonth.className = "p-3 border-r-3 border-black font-beast text-black bg-[#FFE600] sticky left-0 z-10 text-center text-base";
+                tdMonth.innerText = m;
+                tr.appendChild(tdMonth);
+
+                departments.forEach(d => {
+                    let td = document.createElement("td");
+                    td.className = "p-2.5 border-r-3 border-black align-top group relative";
+
+                    let items = trainingData.filter(item => item.month === m && item.dept === d);
+                    let contentDiv = document.createElement("div");
+                    contentDiv.className = "space-y-2 min-h-[48px]";
+
+                    items.forEach(item => {
+                        let badge = document.createElement("div");
+                        let isDone = item.status === "อบรมแล้ว";
+                        
+                        badge.className = `p-2.5 rounded-2xl text-xs font-semibold flex justify-between items-center border-2 border-black beast-shadow-sm transition cursor-pointer ${
+                            isDone 
+                            ? 'bg-[#00E5FF] text-black hover:bg-[#33ebff]' 
+                            : 'bg-[#FF007A] text-white hover:bg-[#ff268a]'
+                        }`;
+                        
+                        badge.innerHTML = `
+                            <span class="flex-1 pr-1 truncate text-sm leading-snug" title="คลิกเพื่อสลับสถานะ">${item.course}</span>
+                            <div class="flex items-center gap-1 shrink-0 ml-1">
+                                <span class="font-beast text-[10px] px-1.5 py-0.5 rounded-md bg-black text-white">${isDone ? 'DONE' : 'WAIT'}</span>
+                                <button onclick="deleteCourse(event, ${item.id})" class="text-black bg-white rounded-md w-5 h-5 font-bold hover:bg-red-500 hover:text-white border border-black transition flex items-center justify-center text-xs" title="ลบ">✕</button>
+                            </div>
+                        `;
+                        
+                        badge.onclick = (e) => {
+                            if (e.target.tagName !== 'BUTTON') {
+                                toggleStatus(item.id);
+                            }
+                        };
+
+                        contentDiv.appendChild(badge);
+                    });
+
+                    let addBtn = document.createElement("button");
+                    addBtn.className = "w-full py-1 text-xs text-black font-bold uppercase opacity-0 group-hover:opacity-100 transition rounded-xl bg-[#FFE600] border-2 border-black mt-1 cursor-pointer beast-shadow-sm";
+                    addBtn.innerText = "+ เพิ่มแผน";
+                    addBtn.onclick = () => openAddModalWithDefaults(m, d);
+                    contentDiv.appendChild(addBtn);
+
+                    td.appendChild(contentDiv);
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderSummary() {
+            const grid = document.getElementById("dept-cards-grid");
+            grid.innerHTML = "";
+
+            let grandTotal = trainingData.length;
+            let grandCompleted = trainingData.filter(d => d.status === "อบรมแล้ว").length;
+            let grandPending = grandTotal - grandCompleted;
+
+            document.getElementById("total-all").innerText = grandTotal;
+            document.getElementById("completed-all").innerText = grandCompleted;
+            document.getElementById("pending-all").innerText = grandPending;
+
+            departments.forEach(dept => {
+                let deptItems = trainingData.filter(d => d.dept === dept);
+                let total = deptItems.length;
+                let completed = deptItems.filter(d => d.status === "อบรมแล้ว").length;
+                let pending = total - completed;
+                let percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+                let card = document.createElement("div");
+                card.className = "bg-white p-5 rounded-3xl border-4 border-black beast-shadow flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-beast text-black text-2xl">${dept}</h3>
+                            <span class="text-xs font-bold px-3 py-1 rounded-xl border-2 border-black ${percent === 100 && total > 0 ? 'bg-[#00E5FF] text-black' : 'bg-[#FFE600] text-black'}">
+                                ${percent}% DONE
+                            </span>
+                        </div>
+                        <div class="w-full bg-black h-4 rounded-xl mb-4 p-1 border-2 border-black">
+                            <div class="bg-[#00E5FF] h-full rounded-lg transition-all duration-500" style="width: ${percent}%"></div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs mb-4 font-bold">
+                            <div class="bg-slate-100 p-2 rounded-xl border-2 border-black">
+                                <p class="text-slate-600 font-semibold text-xs">แผนทั้งหมด</p>
+                                <p class="font-beast text-black text-lg mt-0.5">${total}</p>
+                            </div>
+                            <div class="bg-[#00E5FF]/30 p-2 rounded-xl border-2 border-black">
+                                <p class="text-black font-semibold text-xs">อบรมแล้ว</p>
+                                <p class="font-beast text-black text-lg mt-0.5">${completed}</p>
+                            </div>
+                            <div class="bg-[#FF007A]/20 p-2 rounded-xl border-2 border-black">
+                                <p class="text-black font-semibold text-xs">ยังไม่อบรม</p>
+                                <p class="font-beast text-black text-lg mt-0.5">${pending}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="switchView('matrix')" class="w-full text-sm font-bold text-black py-2.5 bg-[#FFE600] hover:bg-black hover:text-[#FFE600] rounded-xl border-2 border-black transition cursor-pointer">
+                        ดูตารางแผนกนี้ ➔
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderExamLinks() {
+            const grid = document.getElementById("exam-links-grid");
+            grid.innerHTML = "";
+
+            examCourses.forEach(item => {
+                let card = document.createElement("div");
+                card.className = "bg-white rounded-3xl border-4 border-black p-5 beast-shadow flex flex-col justify-between";
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-3 mb-4 pb-3 border-b-3 border-black">
+                            <span class="p-2 bg-[#FFE600] text-black rounded-xl text-xl font-beast border-2 border-black">📑</span>
+                            <h3 class="font-beast text-black text-xl uppercase">${item.name}</h3>
+                        </div>
+                        
+                        <div class="space-y-3 font-semibold text-sm">
+                            <a href="${item.editUrl}" target="_blank" class="flex items-center justify-between p-3 rounded-2xl border-3 border-black bg-[#FFE600] text-black hover:bg-black hover:text-[#FFE600] transition beast-shadow-sm group">
+                                <span class="flex items-center gap-2"><span>✏️</span> แก้ไขฟอร์มข้อสอบ</span>
+                                <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                            </a>
+                            <a href="${item.useUrl}" target="_blank" class="flex items-center justify-between p-3 rounded-2xl border-3 border-black bg-[#00E5FF] text-black hover:bg-black hover:text-[#00E5FF] transition beast-shadow-sm group">
+                                <span class="flex items-center gap-2"><span>📝</span> เปิดทำแบบทดสอบ</span>
+                                <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                            </a>
+                            <a href="${item.dataUrl}" target="_blank" class="flex items-center justify-between p-3 rounded-2xl border-3 border-black bg-[#FF007A] text-white hover:bg-black hover:text-[#FF007A] transition beast-shadow-sm group">
+                                <span class="flex items-center gap-2"><span>📊</span> ดูตารางผลสอบ</span>
+                                <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleStatus(id) {
+            let item = trainingData.find(d => d.id === id);
+            if (item) {
+                item.status = item.status === "อบรมแล้ว" ? "ยังไม่อบรม" : "อบรมแล้ว";
+                renderMatrix();
+            }
+        }
+
+        function deleteCourse(event, id) {
+            event.stopPropagation();
+            if (confirm("ต้องการลบหลักสูตรนี้ใช่หรือไม่?")) {
+                trainingData = trainingData.filter(item => item.id !== id);
+                renderMatrix();
+            }
+        }
+
+        function openAddModal() {
+            document.getElementById("addModal").classList.remove("hidden");
+        }
+
+        function openAddModalWithDefaults(month, dept) {
+            document.getElementById("modal-month").value = month;
+            document.getElementById("modal-dept").value = dept;
+            openAddModal();
+        }
+
+        function closeAddModal() {
+            document.getElementById("addModal").classList.add("hidden");
+            document.getElementById("training-form").reset();
+            document.getElementById("custom-box").classList.add("hidden");
+        }
+
+        function checkCustomCourse(val) {
+            let customBox = document.getElementById("custom-box");
+            if (val === "อื่นๆ") {
+                customBox.classList.remove("hidden");
+                document.getElementById("modal-custom-course").required = true;
+            } else {
+                customBox.classList.add("hidden");
+                document.getElementById("modal-custom-course").required = false;
+            }
+        }
+
+        document.getElementById("training-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let month = document.getElementById("modal-month").value;
+            let dept = document.getElementById("modal-dept").value;
+            let course = document.getElementById("modal-course").value;
+            if (course === "อื่นๆ") {
+                course = document.getElementById("modal-custom-course").value;
+            }
+
+            trainingData.push({
+                id: Date.now(),
+                month: month,
+                dept: dept,
+                course: course,
+                status: "ยังไม่อบรม"
+            });
+
+            closeAddModal();
+            renderMatrix();
+        });
+
+        // Initialize App
+        renderMatrix();
+    </script>
+</body>
+</html>
