@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FEASTABLES STYLE - Training Portal</title>
+    <title>TRAINZ-ENG - Training Portal (Password Protected RBAC)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- นำเข้าฟอนต์ Kanit (หัวข้อ) และ Prompt (เนื้อหาอ่านง่าย) -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700;900&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Prompt', sans-serif; }
         .font-beast { font-family: 'Kanit', sans-serif; font-weight: 900; }
-        
         .beast-shadow { box-shadow: 4px 4px 0px 0px #000000; }
         .beast-shadow-sm { box-shadow: 2px 2px 0px 0px #000000; }
         .beast-shadow-lg { box-shadow: 6px 6px 0px 0px #000000; }
@@ -35,11 +33,11 @@
     <header class="bg-[#FFE600] border-b-4 border-black sticky top-0 z-30">
         <!-- Ticker Marquee Bar -->
         <div class="bg-[#FF007A] text-white font-beast text-sm py-1.5 px-4 overflow-hidden whitespace-nowrap border-b-2 border-black tracking-wider flex justify-between uppercase">
-            <span>⚡ TRAINING PORTAL 2026 ⚡ BUILD YOUR SKILLS ⚡ BE A BEAST ⚡</span>
+            <span>⚡ TRAINZ-ENG PORTAL 2026 ⚡ SECURE RBAC SYSTEM ⚡ BE A BEAST ⚡</span>
             <span class="hidden md:inline">⚡ HIGH PERFORMANCE MODE ⚡ OJT & GHP SYSTEM ⚡</span>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col lg:flex-row justify-between items-center gap-4">
             <!-- Logo Brand Style -->
             <div class="flex items-center gap-3">
                 <div class="bg-[#00E5FF] border-3 border-black p-2 rounded-2xl beast-shadow -rotate-3 hover:rotate-0 transition-transform">
@@ -47,28 +45,45 @@
                 </div>
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-beast uppercase text-black leading-none tracking-normal">
-                        TRAINING <span class="bg-[#FF007A] text-white px-2.5 py-0.5 rounded-xl border-2 border-black inline-block rotate-1">PORTAL</span>
+                        TRAINZ <span class="bg-[#FF007A] text-white px-2.5 py-0.5 rounded-xl border-2 border-black inline-block rotate-1">ENG</span>
                     </h1>
-                    <p class="text-sm font-semibold text-black mt-1">ระบบจัดการแผนอบรม & คลังข้อสอบ</p>
+                    <p class="text-sm font-semibold text-black mt-1">ระบบจัดการแผนอบรม & คลังข้อสอบ (SECURED RBAC)</p>
                 </div>
             </div>
-            
-            <!-- Navigation Tabs (ลบปุ่ม +เพิ่มแผน ออกเรียบร้อยแล้ว) -->
-            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end flex-wrap">
-                <nav class="bg-black p-1.5 rounded-2xl flex text-sm font-bold gap-1.5 border-2 border-black beast-shadow">
-                    <button id="nav-matrix" onclick="switchView('matrix')" class="px-4 py-2 rounded-xl bg-[#00E5FF] text-black border-2 border-black font-bold uppercase transition-all cursor-pointer">
+
+            <!-- RBAC Role Switcher & Navigation Tabs -->
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto justify-between sm:justify-end flex-wrap">
+                
+                <!-- Role Selector Box with Password Lock -->
+                <div class="bg-white border-3 border-black rounded-2xl p-1.5 flex items-center gap-2 beast-shadow w-full sm:w-auto justify-between">
+                    <span class="text-xs font-bold text-black pl-2 uppercase font-beast">🔑 Status:</span>
+                    <select id="role-selector" onchange="requestRoleChange(this.value)" class="bg-[#FFE600] text-black font-bold text-xs px-2.5 py-1.5 rounded-xl border-2 border-black outline-none cursor-pointer">
+                        <option value="STAFF" selected>👤 Staff (ทั่วไป)</option>
+                        <option value="SUPERVISOR">👷 Supervisor (🔒)</option>
+                        <option value="ADMIN">👑 Admin (🔒)</option>
+                    </select>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="bg-black p-1.5 rounded-2xl flex text-sm font-bold gap-1.5 border-2 border-black beast-shadow w-full sm:w-auto justify-center">
+                    <button id="nav-matrix" onclick="switchView('matrix')" class="px-3.5 py-1.5 rounded-xl bg-[#00E5FF] text-black border-2 border-black font-bold uppercase transition-all cursor-pointer text-xs sm:text-sm">
                         📊 ตาราง MATRIX
                     </button>
-                    <button id="nav-summary" onclick="switchView('summary')" class="px-4 py-2 rounded-xl text-white hover:text-[#FFE600] transition-all cursor-pointer uppercase">
+                    <button id="nav-summary" onclick="switchView('summary')" class="px-3.5 py-1.5 rounded-xl text-white hover:text-[#FFE600] transition-all cursor-pointer uppercase text-xs sm:text-sm">
                         📈 สรุปแผนก
                     </button>
-                    <button id="nav-links" onclick="switchView('links')" class="px-4 py-2 rounded-xl text-white hover:text-[#00E5FF] transition-all cursor-pointer uppercase">
-                        🔗 ลิงก์ข้อสอบ (6 หลักสูตร)
+                    <button id="nav-links" onclick="switchView('links')" class="px-3.5 py-1.5 rounded-xl text-white hover:text-[#00E5FF] transition-all cursor-pointer uppercase text-xs sm:text-sm">
+                        🔗 ลิงก์ข้อสอบ
                     </button>
                 </nav>
             </div>
         </div>
     </header>
+
+    <!-- Role Permission Banner Indicator -->
+    <div id="role-banner" class="bg-[#FF007A] border-b-3 border-black text-white font-bold text-xs py-1.5 px-4 text-center">
+        <!-- JS Render Current Role Permission Info -->
+    </div>
 
     <!-- VIEW 1: Matrix Table -->
     <main id="view-matrix" class="p-4 sm:p-6 max-w-full overflow-x-auto flex-1">
@@ -98,7 +113,6 @@
 
     <!-- VIEW 2: Department Summary Dashboard -->
     <main id="view-summary" class="p-4 sm:p-6 max-w-7xl mx-auto w-full hidden flex-1 space-y-6">
-        <!-- Top Stats Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div class="bg-[#FFE600] p-5 rounded-3xl border-4 border-black beast-shadow flex items-center justify-between">
                 <div>
@@ -140,7 +154,7 @@
             <div>
                 <span class="inline-block px-3 py-1 bg-[#FFE600] text-black font-bold rounded-xl text-sm border-2 border-black mb-2">⚡ OFFICIAL EXAM HUB</span>
                 <h2 class="text-2xl font-beast uppercase">คลังลิงก์ข้อสอบ & ตัวเก็บข้อมูล (6 หลักสูตร)</h2>
-                <p class="text-sm text-purple-200 mt-1">กดปุ่มสีสันด้านล่าง เพื่อเปิดลิงก์แก้ไข ทำข้อสอบ ดูตารางผลสอบ หรือฟอร์มลงทะเบียนได้ทันที</p>
+                <p class="text-sm text-purple-200 mt-1">เปิดทำข้อสอบ ดูตารางผลสอบ หรือแบบฟอร์มลงทะเบียน</p>
             </div>
         </div>
 
@@ -155,7 +169,6 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-semibold text-sm">
-                <!-- ใบลงทะเบียน -->
                 <a href="https://docs.google.com/spreadsheets/d/1j0EtnVFuLLnRry2IyxJF933vRLNkajx_iL1pH5ODCTs/edit?gid=923363009#gid=923363009" target="_blank" class="flex items-center justify-between p-4 rounded-2xl border-3 border-black bg-[#FFE600] text-black hover:bg-black hover:text-[#FFE600] transition beast-shadow-sm group">
                     <span class="flex items-center gap-2.5 font-bold text-base">
                         <span class="text-xl">📋</span> แบบฟอร์มใบลงทะเบียน
@@ -163,7 +176,6 @@
                     <span class="group-hover:translate-x-1 transition-transform font-bold text-lg">➔</span>
                 </a>
 
-                <!-- รวมคำตอบ (ปริ้น) -->
                 <a href="https://docs.google.com/spreadsheets/d/10X8kd5eBSy7gL4ekFp_ncqqxhcuk-eHTcbs_4AjwcHY/edit?gid=1430203909#gid=1430203909" target="_blank" class="flex items-center justify-between p-4 rounded-2xl border-3 border-black bg-[#00E5FF] text-black hover:bg-black hover:text-[#00E5FF] transition beast-shadow-sm group">
                     <span class="flex items-center gap-2.5 font-bold text-base">
                         <span class="text-xl">🖨️</span> รวมคำตอบ (ปริ้น)
@@ -173,11 +185,28 @@
             </div>
         </div>
 
-        <!-- Section: คอร์สข้อสอบ 6 หลักสูตร -->
         <div id="exam-links-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- JS Render Exam Links Cards -->
         </div>
     </main>
+
+    <!-- Modal ใส่รหัสผ่านเพื่อเข้าสู่สิทธิ์ -->
+    <div id="passwordModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-[#00E5FF] rounded-3xl border-4 border-black max-w-sm w-full p-6 beast-shadow-lg">
+            <div class="flex justify-between items-center mb-4 border-b-3 border-black pb-3">
+                <h3 id="passModalTitle" class="text-xl font-beast text-black uppercase">🔒 ยืนยันรหัสผ่าน</h3>
+                <button onclick="closePasswordModal()" class="bg-black text-white font-beast w-8 h-8 rounded-xl border-2 border-black hover:bg-[#FF007A] transition cursor-pointer">✕</button>
+            </div>
+            <div class="space-y-4">
+                <p id="passModalDesc" class="text-xs font-semibold text-black">กรุณาใส่รหัสผ่านเพื่อเข้าใช้งานสิทธิ์นี้:</p>
+                <input type="password" id="role-password-input" class="w-full bg-white border-3 border-black rounded-xl p-3 outline-none focus:ring-2 focus:ring-black text-center text-lg font-bold tracking-widest" placeholder="••••••••">
+                <div class="flex gap-2 pt-2">
+                    <button onclick="verifyPassword()" class="flex-1 bg-[#FF007A] text-white border-3 border-black py-2.5 rounded-xl font-bold uppercase text-sm beast-shadow cursor-pointer hover:bg-black transition">ยืนยัน</button>
+                    <button onclick="closePasswordModal()" class="flex-1 bg-white text-black border-3 border-black py-2.5 rounded-xl font-bold uppercase text-sm cursor-pointer hover:bg-slate-200 transition">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal เพิ่มหลักสูตร -->
     <div id="addModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
@@ -247,8 +276,17 @@
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Logic with Password Protection -->
     <script>
+        // ตั้งค่ารหัสผ่านที่นี่
+        const PASSWORDS = {
+            SUPERVISOR: "1234",
+            ADMIN: "admin1234"
+        };
+
+        let currentRole = "STAFF"; // Default Role
+        let pendingTargetRole = "";
+
         const months = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
         const departments = ["LMN 1", "LMN 2", "OP", "SRN", "KINSUN", "ENV+ พลังงาน", "ENF", "MN", "RD", "ASRS"];
 
@@ -299,6 +337,64 @@
             { id: 5, month: "มีนาคม", dept: "ASRS", course: "Food Allergen", status: "ยังไม่อบรม" }
         ];
 
+        function requestRoleChange(targetRole) {
+            if (targetRole === currentRole) return;
+
+            if (targetRole === "STAFF") {
+                // สลับกลับเป็น Staff ไม่ต้องใส่รหัส
+                currentRole = "STAFF";
+                updateRoleUI();
+            } else {
+                // ต้องใส่รหัสผ่านก่อนเปลี่ยน
+                pendingTargetRole = targetRole;
+                document.getElementById("passModalTitle").innerText = targetRole === "ADMIN" ? "👑 รหัสผ่าน ADMIN" : "👷 รหัสผ่าน SUPERVISOR";
+                document.getElementById("passModalDesc").innerText = `กรุณากรอกรหัสผ่านเพื่อสลับเป็นสิทธิ์ ${targetRole}:`;
+                document.getElementById("role-password-input").value = "";
+                document.getElementById("passwordModal").classList.remove("hidden");
+                document.getElementById("role-password-input").focus();
+            }
+        }
+
+        function verifyPassword() {
+            let inputPass = document.getElementById("role-password-input").value;
+            let correctPass = PASSWORDS[pendingTargetRole];
+
+            if (inputPass === correctPass) {
+                currentRole = pendingTargetRole;
+                closePasswordModal();
+                updateRoleUI();
+            } else {
+                alert("❌ รหัสผ่านไม่ถูกต้อง!");
+                document.getElementById("role-selector").value = currentRole;
+                closePasswordModal();
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById("passwordModal").classList.add("hidden");
+            document.getElementById("role-selector").value = currentRole;
+        }
+
+        function updateRoleUI() {
+            updateRoleBanner();
+            renderMatrix();
+            renderExamLinks();
+        }
+
+        function updateRoleBanner() {
+            const banner = document.getElementById("role-banner");
+            if (currentRole === 'ADMIN') {
+                banner.className = "bg-[#FFE600] border-b-3 border-black text-black font-bold text-xs py-1.5 px-4 text-center";
+                banner.innerHTML = "👑 <b>สิทธิ์การใช้งาน: ADMIN</b> (ทำได้ทุกอย่าง: เพิ่มแผน / สลับสถานะ / ลบข้อมูล / แก้ไขข้อสอบ)";
+            } else if (currentRole === 'SUPERVISOR') {
+                banner.className = "bg-[#00E5FF] border-b-3 border-black text-black font-bold text-xs py-1.5 px-4 text-center";
+                banner.innerHTML = "👷 <b>สิทธิ์การใช้งาน: SUPERVISOR</b> (สามารถเพิ่มแผน และ สลับสถานะได้ | ❌ ไม่สามารถลบแผนได้)";
+            } else {
+                banner.className = "bg-[#FF007A] border-b-3 border-black text-white font-bold text-xs py-1.5 px-4 text-center";
+                banner.innerHTML = "👤 <b>สิทธิ์การใช้งาน: GENERAL STAFF</b> (โหมดดูอย่างเดียว View-Only | ❌ ไม่สามารถเพิ่ม/ลบ/แก้ไขข้อมูลได้)";
+            }
+        }
+
         function switchView(viewName) {
             const matrixView = document.getElementById("view-matrix");
             const summaryView = document.getElementById("view-summary");
@@ -312,8 +408,8 @@
             summaryView.classList.add("hidden");
             linksView.classList.add("hidden");
 
-            const inactiveBtnClass = "px-4 py-2 rounded-xl text-white hover:text-[#FFE600] transition-all cursor-pointer uppercase font-bold";
-            const activeBtnClass = "px-4 py-2 rounded-xl bg-[#00E5FF] text-black border-2 border-black font-bold uppercase transition-all cursor-pointer";
+            const inactiveBtnClass = "px-3.5 py-1.5 rounded-xl text-white hover:text-[#FFE600] transition-all cursor-pointer uppercase font-bold text-xs sm:text-sm";
+            const activeBtnClass = "px-3.5 py-1.5 rounded-xl bg-[#00E5FF] text-black border-2 border-black font-bold uppercase transition-all cursor-pointer text-xs sm:text-sm";
 
             btnMatrix.className = inactiveBtnClass;
             btnSummary.className = inactiveBtnClass;
@@ -357,35 +453,48 @@
                     items.forEach(item => {
                         let badge = document.createElement("div");
                         let isDone = item.status === "อบรมแล้ว";
-                        
-                        badge.className = `p-2.5 rounded-2xl text-xs font-semibold flex justify-between items-center border-2 border-black beast-shadow-sm transition cursor-pointer ${
+                        let canToggle = currentRole === 'ADMIN' || currentRole === 'SUPERVISOR';
+                        let canDelete = currentRole === 'ADMIN';
+
+                        badge.className = `p-2.5 rounded-2xl text-xs font-semibold flex justify-between items-center border-2 border-black beast-shadow-sm transition ${
+                            canToggle ? 'cursor-pointer' : 'cursor-default'
+                        } ${
                             isDone 
                             ? 'bg-[#00E5FF] text-black hover:bg-[#33ebff]' 
                             : 'bg-[#FF007A] text-white hover:bg-[#ff268a]'
                         }`;
                         
+                        let deleteBtnHTML = canDelete 
+                            ? `<button onclick="deleteCourse(event, ${item.id})" class="text-black bg-white rounded-md w-5 h-5 font-bold hover:bg-red-500 hover:text-white border border-black transition flex items-center justify-center text-xs ml-1" title="ลบแผน">✕</button>`
+                            : '';
+
                         badge.innerHTML = `
-                            <span class="flex-1 pr-1 truncate text-sm leading-snug" title="คลิกเพื่อสลับสถานะ">${item.course}</span>
-                            <div class="flex items-center gap-1 shrink-0 ml-1">
+                            <span class="flex-1 pr-1 truncate text-sm leading-snug" title="${canToggle ? 'คลิกเพื่อสลับสถานะ' : ''}">${item.course}</span>
+                            <div class="flex items-center gap-1 shrink-0">
                                 <span class="font-beast text-[10px] px-1.5 py-0.5 rounded-md bg-black text-white">${isDone ? 'DONE' : 'WAIT'}</span>
-                                <button onclick="deleteCourse(event, ${item.id})" class="text-black bg-white rounded-md w-5 h-5 font-bold hover:bg-red-500 hover:text-white border border-black transition flex items-center justify-center text-xs" title="ลบ">✕</button>
+                                ${deleteBtnHTML}
                             </div>
                         `;
                         
-                        badge.onclick = (e) => {
-                            if (e.target.tagName !== 'BUTTON') {
-                                toggleStatus(item.id);
-                            }
-                        };
+                        if (canToggle) {
+                            badge.onclick = (e) => {
+                                if (e.target.tagName !== 'BUTTON') {
+                                    toggleStatus(item.id);
+                                }
+                            };
+                        }
 
                         contentDiv.appendChild(badge);
                     });
 
-                    let addBtn = document.createElement("button");
-                    addBtn.className = "w-full py-1 text-xs text-black font-bold uppercase opacity-0 group-hover:opacity-100 transition rounded-xl bg-[#FFE600] border-2 border-black mt-1 cursor-pointer beast-shadow-sm";
-                    addBtn.innerText = "+ เพิ่มแผน";
-                    addBtn.onclick = () => openAddModalWithDefaults(m, d);
-                    contentDiv.appendChild(addBtn);
+                    // แสดงปุ่ม +เพิ่มแผน เฉพาะ ADMIN และ SUPERVISOR เท่านั้น
+                    if (currentRole === 'ADMIN' || currentRole === 'SUPERVISOR') {
+                        let addBtn = document.createElement("button");
+                        addBtn.className = "w-full py-1 text-xs text-black font-bold uppercase opacity-0 group-hover:opacity-100 transition rounded-xl bg-[#FFE600] border-2 border-black mt-1 cursor-pointer beast-shadow-sm";
+                        addBtn.innerText = "+ เพิ่มแผน";
+                        addBtn.onclick = () => openAddModalWithDefaults(m, d);
+                        contentDiv.appendChild(addBtn);
+                    }
 
                     td.appendChild(contentDiv);
                     tr.appendChild(td);
@@ -455,9 +564,18 @@
             const grid = document.getElementById("exam-links-grid");
             grid.innerHTML = "";
 
+            let canEditForm = currentRole === 'ADMIN';
+
             examCourses.forEach(item => {
                 let card = document.createElement("div");
                 card.className = "bg-white rounded-3xl border-4 border-black p-5 beast-shadow flex flex-col justify-between";
+
+                let editBtnHTML = canEditForm ? `
+                    <a href="${item.editUrl}" target="_blank" class="flex items-center justify-between p-3 rounded-2xl border-3 border-black bg-[#FFE600] text-black hover:bg-black hover:text-[#FFE600] transition beast-shadow-sm group">
+                        <span class="flex items-center gap-2"><span>✏️</span> แก้ไขฟอร์มข้อสอบ (Admin)</span>
+                        <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                    </a>
+                ` : '';
 
                 card.innerHTML = `
                     <div>
@@ -467,10 +585,7 @@
                         </div>
                         
                         <div class="space-y-3 font-semibold text-sm">
-                            <a href="${item.editUrl}" target="_blank" class="flex items-center justify-between p-3 rounded-2xl border-3 border-black bg-[#FFE600] text-black hover:bg-black hover:text-[#FFE600] transition beast-shadow-sm group">
-                                <span class="flex items-center gap-2"><span>✏️</span> แก้ไขฟอร์มข้อสอบ</span>
-                                <span class="group-hover:translate-x-1 transition-transform">➔</span>
-                            </a>
+                            ${editBtnHTML}
                             <a href="${item.useUrl}" target="_blank" class="flex items-center justify-between p-3 rounded-2xl border-3 border-black bg-[#00E5FF] text-black hover:bg-black hover:text-[#00E5FF] transition beast-shadow-sm group">
                                 <span class="flex items-center gap-2"><span>📝</span> เปิดทำแบบทดสอบ</span>
                                 <span class="group-hover:translate-x-1 transition-transform">➔</span>
@@ -488,6 +603,7 @@
         }
 
         function toggleStatus(id) {
+            if (currentRole !== 'ADMIN' && currentRole !== 'SUPERVISOR') return;
             let item = trainingData.find(d => d.id === id);
             if (item) {
                 item.status = item.status === "อบรมแล้ว" ? "ยังไม่อบรม" : "อบรมแล้ว";
@@ -497,6 +613,10 @@
 
         function deleteCourse(event, id) {
             event.stopPropagation();
+            if (currentRole !== 'ADMIN') {
+                alert("สิทธิ์ของคุณไม่สามารถลบแผนการอบรมได้!");
+                return;
+            }
             if (confirm("ต้องการลบหลักสูตรนี้ใช่หรือไม่?")) {
                 trainingData = trainingData.filter(item => item.id !== id);
                 renderMatrix();
@@ -504,6 +624,10 @@
         }
 
         function openAddModal() {
+            if (currentRole !== 'ADMIN' && currentRole !== 'SUPERVISOR') {
+                alert("สิทธิ์ของคุณไม่สามารถเพิ่มแผนการอบรมได้!");
+                return;
+            }
             document.getElementById("addModal").classList.remove("hidden");
         }
 
@@ -551,8 +675,15 @@
             renderMatrix();
         });
 
-        // Initialize App
-        renderMatrix();
+        // รองรับการกด Enter ในกล่องกรอกรหัสผ่าน
+        document.getElementById("role-password-input").addEventListener("keyup", function(e) {
+            if (e.key === "Enter") {
+                verifyPassword();
+            }
+        });
+
+        // Init App & Role
+        updateRoleUI();
     </script>
 </body>
 </html>
